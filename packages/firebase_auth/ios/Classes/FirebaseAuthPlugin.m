@@ -99,6 +99,17 @@ int nextHandle = 0;
                                     completion:^(NSError *error) {
                                       [self sendResult:result forUser:nil error:error];
                                     }];
+  } else if ([@"updatePassword" isEqualToString:call.method]) {
+      NSString *email = call.arguments[@"email"];
+      NSString *oldPassword = call.arguments[@"oldPassword"];
+      NSString *newPassword = call.arguments[@"newPassword"];
+      [[FIRAuth auth] signInWithEmail:email
+                             password:oldPassword
+                           completion:^(FIRUser *user, NSError *error) {
+                               [user updatePassword:newPassword completion:^(NSError *_Nullable error) {
+                                   [self sendResult:result forUser:user error:error];
+                               }];
+                           }];
   } else if ([@"signInWithEmailAndPassword" isEqualToString:call.method]) {
     NSString *email = call.arguments[@"email"];
     NSString *password = call.arguments[@"password"];

@@ -168,6 +168,24 @@ class FirebaseAuth {
     );
   }
 
+  Future<Null> updatePassword({
+    @required String email,
+    @required String oldPassword,
+    @required String newPassword
+  }) async {
+    assert(email != null);
+    assert(oldPassword != null);
+    assert(newPassword != null);
+    return FirebaseAuth.channel.invokeMethod(
+      'updatePassword',
+      <String, String>{
+        'email': email,
+        'oldPassword': oldPassword,
+        'newPassword': newPassword,
+      },
+    );
+  }
+
   Future<FirebaseUser> signInWithEmailAndPassword({
     @required String email,
     @required String password,
